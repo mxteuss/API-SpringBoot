@@ -5,6 +5,7 @@ import dev.java.CadastroNinja.Missoes.service.MissoesService;
 import lombok.AllArgsConstructor;
 
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class MissoesController {
     }
 
     @GetMapping("/missoes/{id}")
-    public UUID findById(@PathVariable UUID id){
+    public UUID findById(@PathVariable @NotNull UUID id){
         missoesService.findById(id);
         return id;
     }
@@ -43,7 +44,7 @@ public class MissoesController {
         return "ID:" + id + "deletado com sucesso!";
     }
     @PutMapping("/missoes/{id}")
-    public Missoes update(@PathVariable UUID id, @RequestBody Missoes missoesAtualizada){
+    public Missoes update(@PathVariable @NotNull UUID id, @RequestBody Missoes missoesAtualizada){
         Missoes missoes = missoesService.findById(id);
         missoes.setName(missoesAtualizada.getName());
         missoes.setId(missoesAtualizada.getId());
