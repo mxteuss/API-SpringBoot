@@ -2,6 +2,7 @@ package dev.java.CadastroNinja.Ninjas.model;
 
 import dev.java.CadastroNinja.Missoes.model.Missoes;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class NinjaModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+    @Size(min = 3, max = 20)
     private String nome;
     private Integer idade;
     // @ManyToOne O ninja tem uma única missão
