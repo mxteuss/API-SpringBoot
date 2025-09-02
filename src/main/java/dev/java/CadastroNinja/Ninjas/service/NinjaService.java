@@ -19,11 +19,18 @@ public class NinjaService {
         Pageable pageable = PageRequest.of(pageNO, pageSize);
         return ninjaRepository.findAll(pageable);
     }
-
+    public NinjaModel findById(UUID id){
+        ninjaRepository.findById(id);
+        return (NinjaModel) ninjaRepository;
+    }
     public NinjaModel save(NinjaModel ninjaModel){
         return ninjaRepository.save(ninjaModel);
     }
 
+    public NinjaModel update(UUID id) {
+        return ninjaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ninja não encontrado"));
+    }
     public String deleteById( UUID id){
         ninjaRepository.deleteById(id);
         return "Id: " + id + ". sucessfull delete!";
