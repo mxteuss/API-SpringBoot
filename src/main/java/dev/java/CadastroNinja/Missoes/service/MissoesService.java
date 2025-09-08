@@ -20,15 +20,15 @@ public class MissoesService {
         Pageable pageable = PageRequest.of(pageNO, pageSize);
         return missoesRepository.findAll(pageable);
     }
-    public  Missoes create(Missoes missoes){
+    public Missoes create(Missoes missoes){
         return missoesRepository.save(missoes);
     }
-    public String deleteById(UUID id){
+    public void deleteById(UUID id){
         missoesRepository.deleteById(id);
-        return "ID:" + id + "sucessfull delete";
     }
     public Missoes findById(UUID id){
-        missoesRepository.findById(id);
+        missoesRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("ID não encontrado"));
        return (Missoes) missoesRepository;
     }
     public Missoes update( UUID id, Missoes missoesAtualizada){

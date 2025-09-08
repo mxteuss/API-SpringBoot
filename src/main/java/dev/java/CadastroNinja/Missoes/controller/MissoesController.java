@@ -5,10 +5,12 @@ import dev.java.CadastroNinja.Missoes.service.MissoesService;
 import lombok.AllArgsConstructor;
 
 
+import org.apache.coyote.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,29 +30,33 @@ public class MissoesController {
     }
 
     @GetMapping("/missoes/{id}")
-    public UUID findById(@PathVariable UUID id){
+    public ResponseEntity<UUID> findById(@PathVariable  UUID id){
         missoesService.findById(id);
-        return id;
+        return ResponseEntity.ok(id);
     }
 
-    @PostMapping("/missoes")
-    public Missoes create(Missoes missoes){
-    return missoesService.create(missoes);
-    }
     @DeleteMapping("/missoes/{id}")
-    public String deleteById(@PathVariable UUID id){
+    public ResponseEntity<Void> deleteById(@PathVariable UUID id){
         missoesService.deleteById(id);
-        return "ID:" + id + "deletado com sucesso!";
+        return ResponseEntity.noContent().build(); // 204
     }
+    @PostMapping("/missoes")
+    public ResponseEntity<Missoes> create(@RequestBody Missoes missoes){
+        Missoes missoes1 = missoesService.create(missoes);
+        URI location = URI.create("/missoes/" + missoes1.getId());
+        return ResponseEntity.created(location).body(missoes1); //201
+    }
+
     @PutMapping("/missoes/{id}")
-    public Missoes update(@PathVariable UUID id, @RequestBody Missoes missoesAtualizada){
+    public ResponseEntity<Missoes> update(@PathVariable UUID id, @RequestBody Missoes missoesAtualizada){
         Missoes missoes = missoesService.findById(id);
         missoes.setName(missoesAtualizada.getName());
         missoes.setId(missoesAtualizada.getId());
         missoes.setDescricao(missoesAtualizada.getDescricao());
         missoes.setDif(missoesAtualizada.getDif());
         missoes.setNinjaModel(missoesAtualizada.getNinjaModel());
+        URI location = URI.create("/missoes/" + missoes.getId());
 
-        return missoes;
+        return ResponseEntity.created(location).body(missoes);
     }
 }
