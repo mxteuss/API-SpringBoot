@@ -2,6 +2,7 @@ package dev.java.CadastroNinja.Missoes.model;
 
 import dev.java.CadastroNinja.Ninjas.model.NinjaModel;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class Missoes implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String dif;
+    @Size(min = 4, max = 25)
     private String name;
     private String descricao;
     @OneToMany(mappedBy = "missoes")
