@@ -1,7 +1,6 @@
 package dev.java.CadastroNinja.Missoes.dto;
 
 import dev.java.CadastroNinja.Ninjas.dto.NinjaDTO;
-import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
