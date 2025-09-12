@@ -1,5 +1,6 @@
 package dev.java.CadastroNinja.Ninjas.controller;
 
+import dev.java.CadastroNinja.Ninjas.dto.NinjaDTO;
 import dev.java.CadastroNinja.Ninjas.model.NinjaModel;
 import dev.java.CadastroNinja.Ninjas.service.NinjaService;
 import lombok.AllArgsConstructor;
@@ -12,39 +13,36 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping
-@AllArgsConstructor
+
 public class NinjaController {
     private final NinjaService ninjaService;
 
+    public NinjaController(NinjaService ninjaService) {
+        this.ninjaService = ninjaService;
+    }
+
     @GetMapping("/ninjas")
-    public ResponseEntity<Page<NinjaModel>> findAll(
+    public ResponseEntity<Page<NinjaDTO>> findAll(
             @RequestParam(defaultValue = "0") int pageNO,
             @RequestParam(defaultValue = "10") int pageSize) {
-        Page<NinjaModel> ninjas = ninjaService.findAll(pageNO, pageSize);
+        Page<NinjaDTO> ninjas = ninjaService.findAll(pageNO, pageSize);
         return ResponseEntity.ok(ninjas);
     }
 
      @PostMapping("/ninjas")
-    public NinjaModel save(NinjaModel ninjaModel){
-        return ninjaService.save(ninjaModel);
+    public NinjaDTO save(NinjaDTO ninja){
+        return ninjaService.save(ninja);
     }
     @PutMapping("/ninjas/{id}")
-    public NinjaModel update(@PathVariable @NotNull UUID id, NinjaModel ninja){
-        NinjaModel ninjaModel = ninjaService.update(id);
-        ninja.setId(ninjaModel.getId());
-        ninja.setNome(ninjaModel.getNome());
-        ninja.setIdade(ninjaModel.getIdade());
-        ninja.setMissoes(ninjaModel.getMissoes());
-
-        return ninja;
+    public NinjaDTO update(@PathVariable @NotNull Long id, NinjaDTO ninja){
+        return ninjaService.update(id);
     }
     @DeleteMapping("/ninjas/{id}")
-    public String deleteById(@PathVariable @NotNull UUID id){
+    public void deleteById(@PathVariable @NotNull Long id){
         ninjaService.deleteById(id);
-        return "Id: " + id + ". deletado com sucesso!";
     }
     @GetMapping("/ninjas/{id}")
-    public NinjaModel findById(@PathVariable @NotNull UUID id){
+    public NinjaDTO findById(@PathVariable @NotNull Long id){
         return ninjaService.findById(id);
     }
 
